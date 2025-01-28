@@ -52,3 +52,13 @@ After installing the dependencies, `task client-react:run` will use vite to run 
 This service uses poetry to manage dependencies. You will need to install the dependencies with `task load-generator-python:install`.
 
 After installing the dependencies, `task load-generator-python:run` will run the application.
+
+
+## without using task
+export IMAGE_REPO="safwat3112/demo-load-generator"
+export IMAGE_TAG="1.0"
+docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t $IMAGE_REPO:$IMAGE_TAG \
+        --push \
+        .

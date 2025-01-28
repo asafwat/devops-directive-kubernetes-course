@@ -1,0 +1,68 @@
+replicaCount: 2
+
+image:
+  repository: safwat3112/demo-api-golang
+  pullPolicy: IfNotPresent
+  tag: "1.0"
+
+imagePullSecrets: [ ]
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: { }
+  name: ""
+
+podAnnotations: { }
+podSecurityContext: { }
+securityContext: { }
+
+service:
+  type: ClusterIP
+  port: 8000
+
+secret:
+  DATABASE_URL: "postgres://postgres:postgrespassword@postgresql.demo.svc.cluster.local:5432/postgres"
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - ""
+
+resources:
+  limits:
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 80
+
+
+application:
+  port: 8000
+
+deployment:
+  livenessProbe:
+    httpGet:
+      path: /ping
+      port: http
+    initialDelaySeconds: 15
+    failureThreshold: 3
+    periodSeconds: 10
+    timeoutSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /healthcheck
+      port: http
+    failureThreshold: 1
+    periodSeconds: 10
+    timeoutSeconds: 3
