@@ -1,0 +1,14 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: api-node-overlay
+  namespace: flux-system
+spec:
+  interval: 60s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./demo-flux/api-node-overlay
+  prune: true
+  wait: false
+  timeout: 10m
